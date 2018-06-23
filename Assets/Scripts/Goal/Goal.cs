@@ -2,15 +2,34 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Goal : MonoBehaviour {
+namespace SC
+{
+    public class Goal : MonoBehaviour
+    {
+        RectDetector rectDetector;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+        void Awake()
+        {
+            rectDetector = GetComponent<RectDetector>();
+
+            if (rectDetector) {
+                rectDetector.OnEnter += _OnEnter;
+            }
+        }
+
+        void OnDestroy()
+        {
+            if (rectDetector) {
+                rectDetector.OnEnter -= _OnEnter;
+            }
+        }
+
+        void _OnEnter(GameObject obj)
+        {
+            if (obj.CompareTag("Player")) {
+                GameController.GameOver();
+            }
+        }
+    }
 }
