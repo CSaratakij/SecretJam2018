@@ -8,6 +8,8 @@ namespace SC
     {
         const float X_OFFSET = 0.5f;
         const float Y_OFFSET = -0.2f;
+        const float MOVEABLE_DEADZONE = 0.1f;
+
 
         [SerializeField]
         float moveSpeed;
@@ -16,19 +18,26 @@ namespace SC
         float gamepadDeadZone;
 
 
+        bool isMoveAble;
+
         float axisX;
         float axisY;
 
         Vector2 inputAxis;
+        Vector2 expectPos;
+
         Rigidbody2D rigid;
-
-
-        Vector3 expectPos;
 
 
         void Awake()
         {
+            _Subscribe_Events();
             rigid = GetComponent<Rigidbody2D>();
+        }
+        
+        void OnDestroy()
+        {
+            _Unsubscribe_Events();
         }
 
         void Start()
@@ -45,6 +54,28 @@ namespace SC
         void FixedUpdate()
         {
             _Movement_Handler();
+        }
+
+        void _Subscribe_Events()
+        {
+            GameController.OnGameStart += _OnGameStart;
+            GameController.OnGameOver += _OnGameOver;
+        }
+
+        void _Unsubscribe_Events()
+        {
+            GameController.OnGameStart -= _OnGameStart;
+            GameController.OnGameOver -= _OnGameOver;
+        }
+
+        void _OnGameStart()
+        {
+            isMoveAble = true;
+        }
+
+        void _OnGameOver()
+        {
+            isMoveAble = false;
         }
 
         void _Input_Processing()
@@ -76,23 +107,18 @@ namespace SC
 
         void _Input_Handler()
         {
-            var distance = Vector3.Distance(rigid.position, expectPos);
-            var deadZone = 0.1f;
-
-            if (distance >= deadZone) {
-                return;
-            }
+            var distance = Vector2.Distance(rigid.position, expectPos);
+            if (distance >= MOVEABLE_DEADZONE) { return; }
 
             if (inputAxis.magnitude > 0.0f) {
-                expectPos = expectPos + new Vector3(inputAxis.x, inputAxis.y, 0.0f);
+                expectPos += inputAxis;
             }
         }
 
         void _Movement_Handler()
         {
-            if (expectPos == transform.position) {
-                return;
-            }
+            if (!isMoveAble) { return; }
+            if (expectPos == rigid.position) { return; }
 
             var lerpVector = Vector3.Lerp(rigid.position, expectPos, 0.18f);
             rigid.position = lerpVector;
