@@ -18,22 +18,15 @@ namespace SC
         {
             if (IsGameStart) { return; }
             IsGameStart = true;
-
-            if (OnGameStart != null) {
-                OnGameStart();
-            }
+            OnGameStart?.Invoke();
         }
 
         public static void GameOver()
         {
             if (!IsGameStart) { return; }
-
             IsGameStart = false;
             IsStartOnce = true;
-
-            if (OnGameOver != null) {
-                OnGameOver();
-            }
+            OnGameOver?.Invoke();
         }
     }
 }

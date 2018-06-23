@@ -79,23 +79,17 @@ namespace SC
 
         void _FireEvent_OnEnter(GameObject obj)
         {
-            if (OnEnter != null) {
-                OnEnter(obj);
-            }
+            OnEnter?.Invoke(obj);
         }
 
         void _FireEvent_OnStay(GameObject obj)
         {
-            if (OnStay != null) {
-                OnStay(obj);
-            }
+            OnStay?.Invoke(obj);
         }
 
         void _FireEvent_OnExit(GameObject obj)
         {
-            if (OnExit != null) {
-                OnExit(obj);
-            }
+            OnExit?.Invoke(obj);
         }
     }
 }

@@ -12,6 +12,11 @@ namespace SC
             GameController.GameStart();
         }
 
+        public void GameOver()
+        {
+            GameController.GameOver();
+        }
+
         public void ExitGame()
         {
             Application.Quit();

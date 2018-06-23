@@ -27,19 +27,25 @@ namespace SC
         Vector2 expectPos;
 
         Rigidbody2D rigid;
+        RectDetector rectDetector;
+
+        StockHealth stockHealth;
 
 
-        void Awake()
-        {
-            _Subscribe_Events();
-            rigid = GetComponent<Rigidbody2D>();
-        }
-        
         void OnDestroy()
         {
             _Unsubscribe_Events();
         }
 
+        void Awake()
+        {
+            rigid = GetComponent<Rigidbody2D>();
+            rectDetector = GetComponent<RectDetector>();
+            stockHealth = GetComponent<StockHealth>();
+
+            _Subscribe_Events();
+        }
+        
         void Start()
         {
             expectPos = rigid.position;
@@ -54,29 +60,6 @@ namespace SC
         void FixedUpdate()
         {
             _Movement_Handler();
-        }
-
-        void _Subscribe_Events()
-        {
-            GameController.OnGameStart += _OnGameStart;
-            GameController.OnGameOver += _OnGameOver;
-        }
-
-        void _Unsubscribe_Events()
-        {
-            GameController.OnGameStart -= _OnGameStart;
-            GameController.OnGameOver -= _OnGameOver;
-        }
-
-        void _OnGameStart()
-        {
-            isMoveAble = true;
-        }
-
-        void _OnGameOver()
-        {
-            rigid.position = expectPos;
-            isMoveAble = false;
         }
 
         void _Input_Processing()
@@ -127,6 +110,57 @@ namespace SC
 
             var lerpVector = Vector3.Lerp(rigid.position, expectPos, 0.18f);
             rigid.position = lerpVector;
+        }
+
+        void _Subscribe_Events()
+        {
+            GameController.OnGameStart += _OnGameStart;
+            GameController.OnGameOver += _OnGameOver;
+
+            if (rectDetector) {
+                rectDetector.OnEnter += _OnEnter;
+            }
+
+            if (stockHealth) {
+                stockHealth.OnStockHealthEmpty += _OnStockHealthEmpty;
+            }
+        }
+
+        void _Unsubscribe_Events()
+        {
+            GameController.OnGameStart -= _OnGameStart;
+            GameController.OnGameOver -= _OnGameOver;
+
+            if (rectDetector) {
+                rectDetector.OnEnter -= _OnEnter;
+            }
+
+            if (stockHealth) {
+                stockHealth.OnStockHealthEmpty -= _OnStockHealthEmpty;
+            }
+        }
+
+        void _OnGameStart()
+        {
+            isMoveAble = true;
+        }
+
+        void _OnGameOver()
+        {
+            rigid.position = expectPos;
+            isMoveAble = false;
+        }
+
+        void _OnEnter(GameObject obj)
+        {
+            if (obj.CompareTag("Spike")) {
+                stockHealth.Remove(1);
+            }
+        }
+
+        void _OnStockHealthEmpty()
+        {
+            GameController.GameOver();
         }
     }
 }
