@@ -25,6 +25,11 @@ namespace SC
             timer.Countdown();
         }
 
+        void _OnGameOver()
+        {
+            timer.Pause(true);
+        }
+
         void _OnTimerStopped()
         {
             GameController.GameOver();
@@ -40,6 +45,7 @@ namespace SC
             }
 
             GameController.OnGameStart += _OnGameStart;
+            GameController.OnGameOver += _OnGameOver;
         }
 
         void _Unsubscribe_Events()
@@ -52,6 +58,7 @@ namespace SC
             }
 
             GameController.OnGameStart -= _OnGameStart;
+            GameController.OnGameOver -= _OnGameOver;
         }
     }
 }

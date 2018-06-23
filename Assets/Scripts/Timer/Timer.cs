@@ -7,7 +7,7 @@ namespace SC
     public class Timer : MonoBehaviour
     {
         [SerializeField]
-        bool isStart;
+        bool isPause;
 
         [SerializeField]
         float current;
@@ -18,6 +18,9 @@ namespace SC
 
         public delegate void _Func();
         public event _Func OnTimerStopped;
+
+
+        bool isStart;
 
 
         void Update()
@@ -32,7 +35,7 @@ namespace SC
 
         void _Countdown_Handler()
         {
-            if (!isStart) {
+            if (!isStart || isPause) {
                 return;
             }
 
@@ -49,6 +52,11 @@ namespace SC
             if (isStart) { return; }
             current = maximum;
             isStart = true;
+        }
+
+        public void Pause(bool value)
+        {
+            isPause = value;
         }
 
         public void Stop()
