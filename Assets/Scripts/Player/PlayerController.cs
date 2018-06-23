@@ -75,11 +75,14 @@ namespace SC
 
         void _OnGameOver()
         {
+            rigid.position = expectPos;
             isMoveAble = false;
         }
 
         void _Input_Processing()
         {
+            if (!isMoveAble) { return; }
+
             axisX = Input.GetAxisRaw("Horizontal");
 
             if (axisX > gamepadDeadZone) {
@@ -107,6 +110,8 @@ namespace SC
 
         void _Input_Handler()
         {
+            if (!isMoveAble) { return; }
+
             var distance = Vector2.Distance(rigid.position, expectPos);
             if (distance >= MOVEABLE_DEADZONE) { return; }
 
