@@ -32,6 +32,7 @@ namespace SC
 
         void FixedUpdate()
         {
+
         }
 
         void _Input_Handler()
