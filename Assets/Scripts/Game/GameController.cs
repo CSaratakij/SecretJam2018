@@ -11,6 +11,7 @@ namespace SC
         public static event _Func OnGameOver;
 
         public static bool IsGameStart { get; private set; }
+        public static bool IsStartOnce { get; private set; }
 
 
         public static void GameStart()
@@ -26,7 +27,9 @@ namespace SC
         public static void GameOver()
         {
             if (!IsGameStart) { return; }
+
             IsGameStart = false;
+            IsStartOnce = true;
 
             if (OnGameOver != null) {
                 OnGameOver();

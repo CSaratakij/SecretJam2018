@@ -24,7 +24,13 @@ namespace SC
 
         void Start()
         {
-            _ShowOnly(View.MainMenu);
+            if (GameController.IsStartOnce) {
+                _ShowOnly(View.InGameMenu);
+                GameController.GameStart();
+            }
+            else {
+                _ShowOnly(View.MainMenu);
+            }
         }
 
         void OnDestroy()

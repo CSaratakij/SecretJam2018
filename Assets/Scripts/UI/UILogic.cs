@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace SC
 {
@@ -14,6 +15,12 @@ namespace SC
         public void ExitGame()
         {
             Application.Quit();
+        }
+
+        public void ReloadGame()
+        {
+            var activeScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(activeScene.name);
         }
     }
 }
