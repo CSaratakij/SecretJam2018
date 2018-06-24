@@ -9,6 +9,10 @@ namespace SC
         [SerializeField]
         bool isUseToggleSwitch;
 
+        [SerializeField]
+        bool isShouldActivateOnEnter;
+
+
         RectDetector rectDetector;
         Switch switchComponent;
 
@@ -23,7 +27,17 @@ namespace SC
 
         void _OnEnter(GameObject obj)
         {
-            switchComponent.Toggle();
+            if (isUseToggleSwitch) {
+                switchComponent.Toggle();
+            }
+            else {
+                if (isShouldActivateOnEnter) {
+                    switchComponent.TurnOn();
+                }
+                else {
+                    switchComponent.TurnOff();
+                }
+            }
         }
 
         void _OnExit(GameObject obj)

@@ -89,7 +89,7 @@ MonoBehaviour:
   size: {x: 1, y: 1}
   layerMask:
     serializedVersion: 2
-    m_Bits: 1281
+    m_Bits: 9473
 --- !u!114 &114732046468526058
 MonoBehaviour:
   m_ObjectHideFlags: 1

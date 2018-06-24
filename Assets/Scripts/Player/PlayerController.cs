@@ -20,6 +20,9 @@ namespace SC
         [SerializeField]
         LayerMask layerMask;
 
+        [SerializeField]
+        LayerMask wallLayerMask;
+
 
         bool isMoveAble;
         bool isInvinsible;
@@ -28,9 +31,16 @@ namespace SC
         float axisY;
 
         Collider2D hit;
+        Collider2D hitWall;
 
         Vector2 inputAxis;
         Vector2 expectPos;
+        Vector2 previousPos;
+
+        RaycastHit2D hitup;
+        RaycastHit2D hitdown;
+        RaycastHit2D hitright;
+        RaycastHit2D hitleft;
 
         Rigidbody2D rigid;
         StockHealth stockHealth;
@@ -61,7 +71,7 @@ namespace SC
         
         void Start()
         {
-            expectPos = rigid.position;
+            expectPos = transform.position;
         }
 
         void Update()
@@ -76,28 +86,7 @@ namespace SC
             _Movement_Handler();
 
             if (isInvinsible) { return; }
-            hit = Physics2D.OverlapBox(rigid.position + new Vector2(0.0f, Y_OFFSET), new Vector2(0.5f, 0.5f), 0.0f, layerMask);
-
-            if (hit == null) { return; }
-
-            if (hit.CompareTag("Spike")) {
-                stockHealth.Remove(1);
-
-                if (!isInvinsible) {
-                    isInvinsible = true;
-                    timer.Countdown();
-                    StartCoroutine(_Flickering_Sprite_Callback());
-                }
-            }
-            else if (hit.CompareTag("Bullet")) {
-                stockHealth.Remove(1);
-
-                if (!isInvinsible) {
-                    isInvinsible = true;
-                    timer.Countdown();
-                    StartCoroutine(_Flickering_Sprite_Callback());
-                }
-            }
+            _TakeDamage_Handler();
         }
 
         void _Input_Processing()
@@ -132,22 +121,59 @@ namespace SC
         void _Input_Handler()
         {
             if (!isMoveAble) { return; }
+            if (Vector2.Distance(expectPos, rigid.position) <= 0.2f) {
+                previousPos = expectPos;
+                expectPos += inputAxis;;
+            }
 
             var distance = Vector2.Distance(rigid.position, expectPos);
-            if (distance >= MOVEABLE_DEADZONE) { return; }
 
-            if (inputAxis.magnitude > 0.0f) {
-                expectPos += inputAxis;
+            if (distance > 0.0f) {
+                var dir = expectPos - rigid.position;
+
+                //Hacks
+                var pos = rigid.position + dir * moveSpeed * Time.deltaTime;
+
+                pos.x = Mathf.Clamp(pos.x, -8.5f, 8.5f); 
+                pos.y = Mathf.Clamp(pos.y, -4.2f, 4.8f); 
+
+                rigid.position = pos;
             }
         }
 
         void _Movement_Handler()
         {
             if (!isMoveAble) { return; }
-            if (expectPos == rigid.position) { return; }
+            if (expectPos == previousPos) { return; }
 
-            var lerpVector = Vector3.Lerp(rigid.position, expectPos, 0.18f);
-            rigid.position = lerpVector;
+            var dir = expectPos - rigid.position;
+            hitWall = Physics2D.OverlapBox(expectPos, new Vector2(0.3f, 0.3f), 0.0f, wallLayerMask);
+
+            if (hitWall) {
+                expectPos = previousPos;
+            }
+        }
+
+        void _TakeDamage_Handler()
+        {
+            hit = Physics2D.OverlapBox(rigid.position + new Vector2(0.0f, Y_OFFSET), new Vector2(0.5f, 0.5f), 0.0f, layerMask);
+
+            if (hit == null) { return; }
+
+            if (hit.CompareTag("Spike")) {
+                stockHealth.Remove(1);
+
+                if (!isInvinsible) {
+                    _Flickering_Sprite();
+                }
+            }
+            else if (hit.CompareTag("Bullet")) {
+                stockHealth.Remove(1);
+
+                if (!isInvinsible) {
+                    _Flickering_Sprite();
+                }
+            }
         }
 
         void _Subscribe_Events()
@@ -197,6 +223,13 @@ namespace SC
         void _OnTimerStopped()
         {
             isInvinsible = false;
+        }
+
+        void _Flickering_Sprite()
+        {
+            isInvinsible = true;
+            timer.Countdown();
+            StartCoroutine(_Flickering_Sprite_Callback());
         }
 
         IEnumerator _Flickering_Sprite_Callback()

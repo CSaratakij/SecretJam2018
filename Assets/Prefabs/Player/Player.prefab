@@ -59,7 +59,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 1
   m_SleepingMode: 1
@@ -88,7 +88,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 0.4, y: 0.4}
   m_EdgeRadius: 0
 --- !u!114 &114210798358157718
 MonoBehaviour:
@@ -115,11 +115,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4902c19e1bf51974fbeb50738d325449, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 8
   gamepadDeadZone: 0.1
   layerMask:
     serializedVersion: 2
     m_Bits: 3585
+  wallLayerMask:
+    serializedVersion: 2
+    m_Bits: 12288
 --- !u!114 &114867825074823044
 MonoBehaviour:
   m_ObjectHideFlags: 1

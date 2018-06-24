@@ -7,6 +7,9 @@ namespace SC
     public class Dispensor : MonoBehaviour
     {
         [SerializeField]
+        bool isActivateOnStart;
+
+        [SerializeField]
         uint maxObject;
 
         [SerializeField]
@@ -80,7 +83,12 @@ namespace SC
 
         void _OnGameStart()
         {
-            switchComponent.TurnOn();
+            if (isActivateOnStart) {
+                switchComponent.TurnOn();
+            }
+            else {
+                switchComponent.TurnOff();
+            }
         }
 
         void _OnGameOver()
@@ -95,14 +103,22 @@ namespace SC
 
         void _OnTurnOff()
         {
-            timer.Stop();
+            timer.Countdown();
         }
 
         void _OnTimerStopped()
         {
             if (!switchComponent) { return; }
-            if (switchComponent.IsTurnOn) {
-                _Select_Available_Object();
+
+            if (isActivateOnStart) {
+                if (switchComponent.IsTurnOn) {
+                    _Select_Available_Object();
+                }
+            }
+            else {
+                if (!switchComponent.IsTurnOn) {
+                    _Select_Available_Object();
+                }
             }
 
             timer.Countdown();
