@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114853988435254676}
   - component: {fileID: 114867825074823044}
   - component: {fileID: 114210798358157718}
+  - component: {fileID: 95484647483868362}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -90,6 +91,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4, y: 0.4}
   m_EdgeRadius: 0
+--- !u!95 &95484647483868362
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1421607451621986}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b95648806a86ef34f98591a8119bb701, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &114210798358157718
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -115,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4902c19e1bf51974fbeb50738d325449, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 8
+  moveSpeed: 8.5
   gamepadDeadZone: 0.1
   layerMask:
     serializedVersion: 2
@@ -134,8 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35493c64158a58e47ae643b95ab22e48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  current: 4
-  maximum: 4
+  current: 2
+  maximum: 2
 --- !u!212 &212925886863959300
 SpriteRenderer:
   m_ObjectHideFlags: 1
