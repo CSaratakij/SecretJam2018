@@ -101,9 +101,10 @@ namespace SC
         void _OnTimerStopped()
         {
             if (!switchComponent) { return; }
-            if (!switchComponent.IsTurnOn) { return; }
+            if (switchComponent.IsTurnOn) {
+                _Select_Available_Object();
+            }
 
-            _Select_Available_Object();
             timer.Countdown();
         }
 

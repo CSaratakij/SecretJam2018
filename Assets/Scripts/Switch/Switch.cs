@@ -36,6 +36,13 @@ namespace SC
         public void Toggle()
         {
             isTurnOn = !isTurnOn;
+            
+            if (isTurnOn) {
+                TurnOn();
+            }
+            else {
+                TurnOff();
+            }
         }
 
         public void Toggle(bool value)

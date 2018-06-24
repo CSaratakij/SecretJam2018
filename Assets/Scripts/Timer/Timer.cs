@@ -64,6 +64,7 @@ namespace SC
 
         public void Stop()
         {
+            if (!isStart) { return; }
             isStart = false;
             OnTimerStopped?.Invoke();
         }

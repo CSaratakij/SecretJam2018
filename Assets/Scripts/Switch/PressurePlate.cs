@@ -23,7 +23,7 @@ namespace SC
 
         void _OnEnter(GameObject obj)
         {
-            switchComponent.TurnOff();
+            switchComponent.Toggle();
         }
 
         void _OnExit(GameObject obj)
