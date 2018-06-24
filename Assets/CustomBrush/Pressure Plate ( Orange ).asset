@@ -9,12 +9,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2d5751a2c961df945a34295ccf5e576d, type: 3}
-  m_Name: Dispensor Brush
+  m_Name: Pressure Plate ( Orange )
   m_EditorClassIdentifier: 
   m_Prefabs:
-  - {fileID: 1046378409563944, guid: af6ef638552498f4c8002afbc426d144, type: 2}
-  - {fileID: 1772595676334056, guid: 818055a4473e97f43849429a87b20cc6, type: 2}
-  - {fileID: 1452332056421546, guid: b31dfc0d85caae945b9482882fd29b89, type: 2}
-  - {fileID: 1082234608672648, guid: 973d3b30f02756340bb6eec24cf8ac4f, type: 2}
+  - {fileID: 1628077578602646, guid: 0d530938b95081140b1f49770d50b6bd, type: 2}
   m_PerlinScale: 0.5
   m_Z: 0
