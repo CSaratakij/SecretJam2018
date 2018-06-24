@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1628077578602646}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.5, y: -0.51, z: 0}
+  m_LocalPosition: {x: -5.46, y: -0.54, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -70,16 +70,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99e7e61fc4c00204b878d200b735a952, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OnTurnOn:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  OnTurnOff:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114896602984703410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -91,6 +81,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e0842995f1890b48a49528514f480f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isUseToggleSwitch: 1
+  isShouldActivateOnEnter: 0
 --- !u!212 &212486696928615624
 SpriteRenderer:
   m_ObjectHideFlags: 1

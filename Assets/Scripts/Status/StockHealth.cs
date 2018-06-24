@@ -21,6 +21,7 @@ namespace SC
 
         public int Current => current;
         public int Maximum => maximum;
+        public bool IsEmpty => current <= 0;
 
 
         public void Clear()

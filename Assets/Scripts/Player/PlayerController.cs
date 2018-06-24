@@ -30,6 +30,8 @@ namespace SC
         float axisX;
         float axisY;
 
+        Animator anim;
+
         Collider2D hit;
         Collider2D hitWall;
 
@@ -58,6 +60,7 @@ namespace SC
 
         void Awake()
         {
+            anim = GetComponent<Animator>();
             rigid = GetComponent<Rigidbody2D>();
             stockHealth = GetComponent<StockHealth>();
 
@@ -78,6 +81,16 @@ namespace SC
         {
             _Input_Processing();
             _Input_Handler();
+
+            if (inputAxis.x > 0.0f) {
+                anim.Play("WalkRight");
+            }
+            else if (inputAxis.x < 0.0f) {
+                anim.Play("WalkLeft");
+            }
+            else {
+                anim.Play("Idle");
+            }
         }
 
         void FixedUpdate()
@@ -146,7 +159,6 @@ namespace SC
             if (!isMoveAble) { return; }
             if (expectPos == previousPos) { return; }
 
-            var dir = expectPos - rigid.position;
             hitWall = Physics2D.OverlapBox(expectPos, new Vector2(0.3f, 0.3f), 0.0f, wallLayerMask);
 
             if (hitWall) {
@@ -159,6 +171,7 @@ namespace SC
             hit = Physics2D.OverlapBox(rigid.position + new Vector2(0.0f, Y_OFFSET), new Vector2(0.5f, 0.5f), 0.0f, layerMask);
 
             if (hit == null) { return; }
+            if (stockHealth.IsEmpty) { return; }
 
             if (hit.CompareTag("Spike")) {
                 stockHealth.Remove(1);
@@ -217,7 +230,9 @@ namespace SC
 
         void _OnStockHealthEmpty()
         {
-            GameController.GameOver();
+            isMoveAble = false;
+            anim.Play("Dead");
+            StartCoroutine(_GameOver_Callback());
         }
 
         void _OnTimerStopped()
@@ -230,6 +245,12 @@ namespace SC
             isInvinsible = true;
             timer.Countdown();
             StartCoroutine(_Flickering_Sprite_Callback());
+        }
+
+        IEnumerator _GameOver_Callback()
+        {
+            yield return new WaitForSeconds(1.3f);
+            GameController.GameOver();
         }
 
         IEnumerator _Flickering_Sprite_Callback()
