@@ -82,15 +82,8 @@ namespace SC
             _Input_Processing();
             _Input_Handler();
 
-            if (inputAxis.x > 0.0f) {
-                anim.Play("WalkRight");
-            }
-            else if (inputAxis.x < 0.0f) {
-                anim.Play("WalkLeft");
-            }
-            else {
-                anim.Play("Idle");
-            }
+            if (!isMoveAble) { return; }
+            _Animation_Handler();
         }
 
         void FixedUpdate()
@@ -245,6 +238,19 @@ namespace SC
             isInvinsible = true;
             timer.Countdown();
             StartCoroutine(_Flickering_Sprite_Callback());
+        }
+
+        void _Animation_Handler()
+        {
+            if (inputAxis.x > 0.0f) {
+                anim.Play("WalkRight");
+            }
+            else if (inputAxis.x < 0.0f) {
+                anim.Play("WalkLeft");
+            }
+            else {
+                anim.Play("Idle");
+            }
         }
 
         IEnumerator _GameOver_Callback()
