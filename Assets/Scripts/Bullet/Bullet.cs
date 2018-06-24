@@ -4,30 +4,30 @@ using UnityEngine;
 
 namespace SC
 {
-    public class PressurePlate : MonoBehaviour
+    public class Bullet : MonoBehaviour
     {
-        [SerializeField]
-        bool isUseToggleSwitch;
-
+        Timer timer;
         RectDetector rectDetector;
-        Switch switchComponent;
+        MoveAgent moveAgent;
 
 
         void Awake()
         {
+            timer = GetComponent<Timer>();
             rectDetector = GetComponent<RectDetector>();
-            switchComponent = GetComponent<Switch>();
+            moveAgent = GetComponent<MoveAgent>();
 
             _Subscribe_Events();
         }
 
-        void _OnEnter(GameObject obj)
+        void OnEnable()
         {
-            switchComponent.TurnOff();
+            moveAgent.AllowMove(true);
         }
 
-        void _OnExit(GameObject obj)
+        void OnDisable()
         {
+            moveAgent.AllowMove(false);
         }
 
         void OnDestroy()
@@ -37,14 +37,24 @@ namespace SC
 
         void _Subscribe_Events()
         {
+            timer.OnTimerStopped +=_OnTimerStopped;
             rectDetector.OnEnter += _OnEnter;
-            rectDetector.OnExit += _OnExit;
         }
 
         void _Unsubscribe_Events()
         {
+            timer.OnTimerStopped -=_OnTimerStopped;
             rectDetector.OnEnter -= _OnEnter;
-            rectDetector.OnExit -= _OnExit;
+        }
+
+        void _OnEnter(GameObject obj)
+        {
+            timer.Countdown();
+        }
+
+        void _OnTimerStopped()
+        {
+            gameObject.SetActive(false);
         }
     }
 }

@@ -64,7 +64,10 @@ namespace SC
             if (IsFound) {
                 if (!isEntered) {
                     isEntered = true;
-                    _FireEvent_OnEnter(results[0].gameObject);
+
+                    for (uint i = 0; i < TotalFound; ++i) {
+                        _FireEvent_OnEnter(results[0].gameObject);
+                    }
                 }
 
                 _FireEvent_OnStay(results[0].gameObject);

@@ -7,11 +7,10 @@ namespace SC
 {
     public class Switch : MonoBehaviour
     {
-        [SerializeField]
-        UnityEvent OnTurnOn;
+        public delegate void _Func();
 
-        [SerializeField]
-        UnityEvent OnTurnOff;
+        public event _Func OnTurnOn;
+        public event _Func OnTurnOff;
 
 
         bool isTurnOn;
@@ -37,6 +36,11 @@ namespace SC
         public void Toggle()
         {
             isTurnOn = !isTurnOn;
+        }
+
+        public void Toggle(bool value)
+        {
+            isTurnOn = value;
         }
     }
 }

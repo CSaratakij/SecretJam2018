@@ -17,19 +17,28 @@ namespace SC
         [SerializeField]
         float gamepadDeadZone;
 
+        [SerializeField]
+        LayerMask layerMask;
+
 
         bool isMoveAble;
+        bool isInvinsible;
 
         float axisX;
         float axisY;
+
+        Collider2D hit;
 
         Vector2 inputAxis;
         Vector2 expectPos;
 
         Rigidbody2D rigid;
-        RectDetector rectDetector;
-
         StockHealth stockHealth;
+
+        Timer timer;
+
+        SpriteRenderer spriteRenderer;
+        Color color;
 
 
         void OnDestroy()
@@ -40,8 +49,12 @@ namespace SC
         void Awake()
         {
             rigid = GetComponent<Rigidbody2D>();
-            rectDetector = GetComponent<RectDetector>();
             stockHealth = GetComponent<StockHealth>();
+
+            timer = GetComponent<Timer>();
+
+            spriteRenderer = GetComponent<SpriteRenderer>();
+            color = spriteRenderer.color;
 
             _Subscribe_Events();
         }
@@ -59,7 +72,32 @@ namespace SC
 
         void FixedUpdate()
         {
+            if (!GameController.IsGameStart) { return; }
             _Movement_Handler();
+
+            if (isInvinsible) { return; }
+            hit = Physics2D.OverlapBox(rigid.position + new Vector2(0.0f, Y_OFFSET), new Vector2(0.5f, 0.5f), 0.0f, layerMask);
+
+            if (hit == null) { return; }
+
+            if (hit.CompareTag("Spike")) {
+                stockHealth.Remove(1);
+
+                if (!isInvinsible) {
+                    isInvinsible = true;
+                    timer.Countdown();
+                    StartCoroutine(_Flickering_Sprite_Callback());
+                }
+            }
+            else if (hit.CompareTag("Bullet")) {
+                stockHealth.Remove(1);
+
+                if (!isInvinsible) {
+                    isInvinsible = true;
+                    timer.Countdown();
+                    StartCoroutine(_Flickering_Sprite_Callback());
+                }
+            }
         }
 
         void _Input_Processing()
@@ -117,12 +155,12 @@ namespace SC
             GameController.OnGameStart += _OnGameStart;
             GameController.OnGameOver += _OnGameOver;
 
-            if (rectDetector) {
-                rectDetector.OnEnter += _OnEnter;
-            }
-
             if (stockHealth) {
                 stockHealth.OnStockHealthEmpty += _OnStockHealthEmpty;
+            }
+
+            if (timer) {
+                timer.OnTimerStopped += _OnTimerStopped;
             }
         }
 
@@ -131,12 +169,12 @@ namespace SC
             GameController.OnGameStart -= _OnGameStart;
             GameController.OnGameOver -= _OnGameOver;
 
-            if (rectDetector) {
-                rectDetector.OnEnter -= _OnEnter;
-            }
-
             if (stockHealth) {
                 stockHealth.OnStockHealthEmpty -= _OnStockHealthEmpty;
+            }
+
+            if (timer) {
+                timer.OnTimerStopped += _OnTimerStopped;
             }
         }
 
@@ -151,16 +189,35 @@ namespace SC
             isMoveAble = false;
         }
 
-        void _OnEnter(GameObject obj)
-        {
-            if (obj.CompareTag("Spike")) {
-                stockHealth.Remove(1);
-            }
-        }
-
         void _OnStockHealthEmpty()
         {
             GameController.GameOver();
+        }
+
+        void _OnTimerStopped()
+        {
+            isInvinsible = false;
+        }
+
+        IEnumerator _Flickering_Sprite_Callback()
+        {
+            color = spriteRenderer.color;
+
+            while (isInvinsible && timer.Current > 0.36f) {
+
+                color.a = 0.2f;
+                spriteRenderer.color = color;
+
+                yield return new WaitForSeconds(0.1f);
+
+                color.a = 0.8f;
+                spriteRenderer.color = color;
+
+                yield return new WaitForSeconds(0.1f);
+            }
+            
+            color.a = 1.0f;
+            spriteRenderer.color = color;
         }
     }
 }

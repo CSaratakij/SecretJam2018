@@ -19,6 +19,9 @@ namespace SC
         public delegate void _Func();
         public event _Func OnTimerStopped;
 
+        public float Current => current;
+        public float Maximum => maximum;
+
 
         bool isStart;
 
