@@ -256,6 +256,7 @@ namespace SC
         IEnumerator _GameOver_Callback()
         {
             yield return new WaitForSeconds(1.3f);
+            GameController.GameOverCondition = GameOverCondition.Dead;
             GameController.GameOver();
         }
 

@@ -32,6 +32,7 @@ namespace SC
 
         void _OnTimerStopped()
         {
+            GameController.GameOverCondition = GameOverCondition.TimeOut;
             GameController.GameOver();
         }
 

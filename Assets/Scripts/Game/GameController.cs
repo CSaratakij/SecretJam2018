@@ -3,6 +3,13 @@ using System.Collections.Generic;
 
 namespace SC
 {
+    public enum GameOverCondition
+    {
+        Dead,
+        Pass,
+        TimeOut
+    }
+
     public sealed class GameController
     {
         public delegate void _Func();
@@ -12,6 +19,9 @@ namespace SC
 
         public static bool IsGameStart { get; private set; }
         public static bool IsStartOnce { get; private set; }
+
+
+        public static GameOverCondition GameOverCondition = GameOverCondition.Dead;
 
 
         public static void GameStart()

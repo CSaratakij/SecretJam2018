@@ -28,6 +28,7 @@ namespace SC
         void _OnEnter(GameObject obj)
         {
             if (obj.CompareTag("Player")) {
+                GameController.GameOverCondition = GameOverCondition.Pass;
                 GameController.GameOver();
             }
         }
