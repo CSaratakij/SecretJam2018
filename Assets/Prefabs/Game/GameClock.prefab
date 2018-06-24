@@ -52,9 +52,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e29127653c03a44876e41f013c8ff8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isStart: 0
-  current: 180
-  maximum: 180
+  isPause: 0
+  current: 181
+  maximum: 181
 --- !u!114 &114748398373624336
 MonoBehaviour:
   m_ObjectHideFlags: 1

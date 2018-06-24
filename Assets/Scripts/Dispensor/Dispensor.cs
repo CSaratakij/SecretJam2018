@@ -16,6 +16,9 @@ namespace SC
         Vector3 ejectOrigin;
 
         [SerializeField]
+        float ejectSpeed;
+
+        [SerializeField]
         Vector3 ejectDirection;
 
         [SerializeField]
@@ -23,16 +26,21 @@ namespace SC
 
 
         GameObject[] objectPool;
+        MoveAgent[] moveAgentPool;
+
         Timer timer;
 
 
         void Awake()
         {
             timer = GetComponent<Timer>();
+
             objectPool = new GameObject[maxObject];
+            moveAgentPool = new MoveAgent[maxObject];
 
             for (int i = 0; i < objectPool.Length; ++i) {
                 objectPool[i] = Instantiate(ejectObject, transform.position + ejectOrigin, Quaternion.identity) as GameObject;
+                moveAgentPool[i] = objectPool[i].GetComponent<MoveAgent>();
                 objectPool[i].gameObject.SetActive(false);
             }
 
@@ -95,15 +103,23 @@ namespace SC
             if (!switchComponent) { return; }
             if (!switchComponent.IsTurnOn) { return; }
 
+            _Select_Available_Object();
+            timer.Countdown();
+        }
+
+        void _Select_Available_Object()
+        {
             for (int i = 0; i < objectPool.Length; ++i) {
                 if (!objectPool[i].gameObject.activeSelf) {
                     objectPool[i].transform.position = transform.position + ejectOrigin;
+
+                    moveAgentPool[i].MoveAtSpeed(ejectSpeed);
+                    moveAgentPool[i].MoveAtDirection(ejectDirection);
+
                     objectPool[i].gameObject.SetActive(true);
                     break;
                 }
             }
-
-            timer.Countdown();
         }
     }
 }

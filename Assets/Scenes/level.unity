@@ -478,7 +478,7 @@ Camera:
   far clip plane: 100
   field of view: 60
   orthographic: 1
-  orthographic size: 5.6
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -2449,6 +2449,16 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114152420030242836, guid: d77a7c9a42a6f95459e3cca6a486e42f,
+        type: 2}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 1895436074}
+    - target: {fileID: 114503656307554084, guid: d77a7c9a42a6f95459e3cca6a486e42f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 699447817}
     - target: {fileID: 114058561392672178, guid: d77a7c9a42a6f95459e3cca6a486e42f,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2459,16 +2469,6 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 699447817}
-    - target: {fileID: 114503656307554084, guid: d77a7c9a42a6f95459e3cca6a486e42f,
-        type: 2}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 699447817}
-    - target: {fileID: 224129656642637488, guid: d77a7c9a42a6f95459e3cca6a486e42f,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d77a7c9a42a6f95459e3cca6a486e42f, type: 2}
   m_IsPrefabParent: 0
@@ -2542,6 +2542,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 11844bc00d516c7469726aa269dc5286, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1895436074 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114318355946982408, guid: 11844bc00d516c7469726aa269dc5286,
+    type: 2}
+  m_PrefabInternal: {fileID: 1310177236}
+  m_Script: {fileID: 11500000, guid: f2e29127653c03a44876e41f013c8ff8, type: 3}
 --- !u!1 &1897960155
 GameObject:
   m_ObjectHideFlags: 0
@@ -2575,6 +2581,7 @@ MonoBehaviour:
   ejectObject: {fileID: 1927161351851876, guid: cc96ebd0e15792040ba0c2d0b7c76a03,
     type: 2}
   ejectOrigin: {x: 1, y: 0, z: 0}
+  ejectSpeed: 5
   ejectDirection: {x: 1, y: 0, z: 0}
   switchComponent: {fileID: 501850604}
 --- !u!212 &1897960157
@@ -2647,8 +2654,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPause: 0
-  current: 0.3
-  maximum: 0.3
+  current: 0.5
+  maximum: 0.5
 --- !u!1001 &2123199210
 Prefab:
   m_ObjectHideFlags: 0

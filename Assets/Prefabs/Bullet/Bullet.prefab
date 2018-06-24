@@ -72,7 +72,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMovaAble: 0
-  moveSpeed: 5
+  moveSpeed: 3
   moveDirection: {x: 1, y: 0, z: 0}
 --- !u!114 &114479077023280392
 MonoBehaviour:
@@ -85,7 +85,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86d948435217fb140aea2f0822181091, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxColliderBuffer: 5
   offset: {x: 0, y: 0, z: 0}
   size: {x: 1, y: 1}
   layerMask:
@@ -103,8 +102,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPause: 0
-  current: 0
-  maximum: 0
+  current: 0.1
+  maximum: 0.1
 --- !u!114 &114874899052698018
 MonoBehaviour:
   m_ObjectHideFlags: 1
